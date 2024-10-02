@@ -30,20 +30,26 @@ public class Evaluation {
 		Scanner scan = new Scanner(System.in);
 		int note;
 		boolean erreur;
-		// Input
+		String choix;
 		do {
-			System.out.print("Entrez un nombre: ");
-			note = scan.nextInt();
-			erreur = (note < 0) || (note > 100);
-			if (erreur)
-				System.out.println("Entrez un nombre entre 0 et 100");
-		} while (erreur);
+			// Input
+			do {
+				System.out.print("Entrez un nombre: ");
+				note = scan.nextInt();
+				erreur = (note < 0) || (note > 100);
+				if (erreur)
+					System.out.println("Entrez un nombre entre 0 et 100");
+			} while (erreur);
 
-		// Traitement
-		String res = calculDecision(note);
+			// Traitement
+			String res = calculDecision(note);
 
-		// Output
-		System.out.println("Note: " + note + " Résultat: " + res);
+			// Output
+			System.out.println("Note: " + note + " Résultat: " + res);
+			System.out.print("Voulez-vous continuer? (O/N)");
+			choix = scan.next();
+		} while ("o".equalsIgnoreCase(choix));
+		System.out.println("FIN");
 		// fermeture du scanner
 		scan.close();
 	}
