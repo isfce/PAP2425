@@ -28,10 +28,17 @@ public class Evaluation {
 	public static void main(String[] args) {
 		// ouverture d'un scanner sur l'entrée standard
 		Scanner scan = new Scanner(System.in);
-
+		int note;
+		boolean erreur;
 		// Input
-		System.out.print("Entrez un nombre: ");
-		int note = scan.nextInt();
+		do {
+			System.out.print("Entrez un nombre: ");
+			note = scan.nextInt();
+			erreur = (note < 0) || (note > 100);
+			if (erreur)
+				System.out.println("Entrez un nombre entre 0 et 100");
+		} while (erreur);
+
 		// Traitement
 		String res = calculDecision(note);
 
