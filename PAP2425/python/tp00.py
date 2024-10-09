@@ -12,9 +12,19 @@ def calculDecision(note : float)->str:
     return res
 
 if __name__ == "__main__":
-    #Input
-    n = float(input("Entrez une note: "))
-    #Traitement
-    r = calculDecision(n)
-    #Output
-    print(f"La note de {n} donne une décision de {r}")
+    car = 'o'
+    while car.lower() == 'o':
+        #Input
+        n = float(input("Entrez une note: "))
+        while n<0 or n>100:
+            print('Attention le nombre doit être entre 0 et 100')
+            n = float(input("Entrez une note: "))
+        
+        #Traitement
+        r = calculDecision(n)
+        #Output
+        print(f"La note de {n} donne une décision de {r}")
+        
+        #Continue?
+        car = input("Voulez-vous continuer (o/n)")
+    print('FIN')
