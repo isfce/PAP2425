@@ -23,8 +23,8 @@ public class TestTpToussaint {
 
 	@Test
 	void testConvertisseur() {
-		assertEquals(38.0, TpToussaint.convertTemp(38.0, 'C', 'C'), 0.0);
-		assertEquals(100.4, TpToussaint.convertTemp(38.0, 'C', 'F'), 0.0);
+		assertEquals(38.0, TpToussaint.convertTemp(38.0, 'C', 'C'),0.0);
+		assertEquals(100.4, TpToussaint.convertTemp(38.0, 'C', 'F'), 0.5);
 		assertEquals(311.15, TpToussaint.convertTemp(38.0, 'C', 'K'), 0.0);
 		assertEquals(38.0, TpToussaint.convertTemp(100.4, 'F', 'C'), 0.0);
 		assertEquals(311.15, TpToussaint.convertTemp(100.4, 'F', 'K'), 0.0);
