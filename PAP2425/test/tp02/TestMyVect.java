@@ -13,6 +13,10 @@ class TestMyVect {
 	int[] v2 = { 1, 8, 19 };
 	int[] v3 = { Integer.MAX_VALUE, Integer.MAX_VALUE };
 	int[] v4 = { 19, 2, 3, 8 };
+	int[] v5 = { 4, 8, 10, 15, 17 };
+	int[] v6 = { 4, 8, 10, 15, 17, 19 };
+	int[] v7 = { 1, 3, 5, 7, 9 };
+	
 	char[] txt1 = { 'a' };
 	char[] txt2 = { 'a', 'a' };
 	char[] txt3 = { 'a', 'b', 'b', 'a' };
@@ -54,4 +58,65 @@ class TestMyVect {
 
 	}
 
+	@Test
+	void testRechercheBin() {
+		assertFalse(MyVect.rechercheBin(v0, 20));
+
+		assertTrue(MyVect.rechercheBin(v1, 20));
+		assertFalse(MyVect.rechercheBin(v1, 10));
+		assertFalse(MyVect.rechercheBin(v1, 30));
+
+		assertTrue(MyVect.rechercheBin(v2, 1));
+		assertTrue(MyVect.rechercheBin(v2, 19));
+		assertFalse(MyVect.rechercheBin(v2, -1));
+		assertFalse(MyVect.rechercheBin(v2, 30));
+
+		assertTrue(MyVect.rechercheBin(v5, 4));
+		assertTrue(MyVect.rechercheBin(v5, 8));
+		assertTrue(MyVect.rechercheBin(v5, 17));
+		assertFalse(MyVect.rechercheBin(v5, 11));
+		assertFalse(MyVect.rechercheBin(v5, 3));
+		assertFalse(MyVect.rechercheBin(v5, 30));
+
+		assertTrue(MyVect.rechercheBin(v6, 4));
+		assertTrue(MyVect.rechercheBin(v6, 8));
+		assertTrue(MyVect.rechercheBin(v6, 17));
+		assertTrue(MyVect.rechercheBin(v6, 19));
+		assertFalse(MyVect.rechercheBin(v6, 11));
+		assertFalse(MyVect.rechercheBin(v6, 3));
+		assertFalse(MyVect.rechercheBin(v6, 30));
+		
+		assertTrue(MyVect.rechercheBin(v7, 9));
+	}
+
+	@Test
+	void testRechercheBin2() {
+		assertFalse(MyVect.rechercheBin2(v0, 20));
+
+		assertTrue(MyVect.rechercheBin2(v1, 20));
+		assertFalse(MyVect.rechercheBin2(v1, 10));
+		assertFalse(MyVect.rechercheBin2(v1, 30));
+
+		assertTrue(MyVect.rechercheBin2(v2, 1));
+		assertTrue(MyVect.rechercheBin2(v2, 19));
+		assertFalse(MyVect.rechercheBin2(v2, -1));
+		assertFalse(MyVect.rechercheBin2(v2, 30));
+
+		assertTrue(MyVect.rechercheBin2(v5, 4));
+		assertTrue(MyVect.rechercheBin2(v5, 8));
+		assertTrue(MyVect.rechercheBin2(v5, 17));
+		assertFalse(MyVect.rechercheBin2(v5, 11));
+		assertFalse(MyVect.rechercheBin2(v5, 3));
+		assertFalse(MyVect.rechercheBin2(v5, 30));
+
+		assertTrue(MyVect.rechercheBin2(v6, 4));
+		assertTrue(MyVect.rechercheBin2(v6, 8));
+		assertTrue(MyVect.rechercheBin2(v6, 17));
+		assertTrue(MyVect.rechercheBin2(v6, 19));
+		assertFalse(MyVect.rechercheBin2(v6, 11));
+		assertFalse(MyVect.rechercheBin2(v6, 3));
+		assertFalse(MyVect.rechercheBin2(v6, 30));
+		
+		assertTrue(MyVect.rechercheBin2(v7, 9));
+	}
 }

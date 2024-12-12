@@ -112,6 +112,21 @@ public class MyVect {
 	}
 
 	/**
+	 * Crée une copie avec le contenu de V inversé
+	 * @param v
+	 * @return
+	 */
+	public static char[] copieInverse(char[] v) {
+		char[] clone = new char[v.length];
+		int j = v.length - 1;
+		for (char elem : v) {
+			clone[j] = elem;
+			j--;
+		}
+		return clone;
+	}
+
+	/**
 	 * Moyenne des éléments de V
 	 * ! taille de v >0
 	 * @param v
@@ -203,6 +218,47 @@ public class MyVect {
 		return pal;
 	}
 
+	/**
+	 * recherche binaire
+	 * Hyp.: le vecteur doit être trié par ordre croissant!
+	 * @param v vecteur trié
+	 * @param elem 
+	 * @return true si le vecteur contient l'élément
+	 */
+	public static boolean rechercheBin(int[] v, int elem) {
+		int d = 0;
+		int f = v.length - 1;
+		boolean trouve = false;
+		int m;
+		while (!trouve && d <= f) {
+			m = (d + f) / 2;
+			trouve = v[m] == elem;
+			if (v[m] > elem)
+				f = m - 1;
+			else
+				d = m + 1;
+		}
+		return trouve;
+	}
+
+	public static boolean rechercheBin2(int[] v, int elem) {
+		if (v.length == 0)//élimine le cas d'un vecteur vide
+			return false;
+		int d = 0;
+		int f = v.length - 1;
+
+		int m = (d + f) / 2;
+		while (d < f && v[m] != elem) {
+
+			if (v[m] > elem)
+				f = m - 1;
+			else
+				d = m + 1;
+			m = (d + f) / 2;
+		}
+		return v[m] == elem;
+	}
+
 	public static void main(String[] args) {
 		/*	char[] hex = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 			afficheVect(hex);
@@ -222,6 +278,6 @@ public class MyVect {
 		// System.out.println("Le minimum est: " + r.min() + " Le maximum est: " +
 		// r.max());
 		System.out.println(estPalindrome("RADAR"));
-
+		
 	}
 }
