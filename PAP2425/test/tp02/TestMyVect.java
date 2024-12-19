@@ -16,7 +16,7 @@ class TestMyVect {
 	int[] v5 = { 4, 8, 10, 15, 17 };
 	int[] v6 = { 4, 8, 10, 15, 17, 19 };
 	int[] v7 = { 1, 3, 5, 7, 9 };
-	
+
 	char[] txt1 = { 'a' };
 	char[] txt2 = { 'a', 'a' };
 	char[] txt3 = { 'a', 'b', 'b', 'a' };
@@ -85,7 +85,7 @@ class TestMyVect {
 		assertFalse(MyVect.rechercheBin(v6, 11));
 		assertFalse(MyVect.rechercheBin(v6, 3));
 		assertFalse(MyVect.rechercheBin(v6, 30));
-		
+
 		assertTrue(MyVect.rechercheBin(v7, 9));
 	}
 
@@ -116,7 +116,64 @@ class TestMyVect {
 		assertFalse(MyVect.rechercheBin2(v6, 11));
 		assertFalse(MyVect.rechercheBin2(v6, 3));
 		assertFalse(MyVect.rechercheBin2(v6, 30));
-		
+
 		assertTrue(MyVect.rechercheBin2(v7, 9));
+	}
+
+	@Test
+	void testRechercheBinPos() {
+		int[] v3 = { 1, 8, 19, 25, 40 };
+		assertEquals(0, MyVect.rechercheBin(v3, 3, 0));
+		assertEquals(0, MyVect.rechercheBin(v3, 3, 1));
+		assertEquals(1, MyVect.rechercheBin(v3, 3, 5));
+		assertEquals(1, MyVect.rechercheBin(v3, 3, 8));
+		assertEquals(2, MyVect.rechercheBin(v3, 3, 10));
+		assertEquals(2, MyVect.rechercheBin(v3, 3, 19));
+		assertEquals(3, MyVect.rechercheBin(v3, 3, 20));
+
+		assertEquals(0, MyVect.rechercheBin(v3, 4, 0));
+		assertEquals(0, MyVect.rechercheBin(v3, 4, 1));
+		assertEquals(1, MyVect.rechercheBin(v3, 4, 5));
+		assertEquals(1, MyVect.rechercheBin(v3, 4, 8));
+		assertEquals(2, MyVect.rechercheBin(v3, 4, 10));
+		assertEquals(2, MyVect.rechercheBin(v3, 4, 19));
+		assertEquals(3, MyVect.rechercheBin(v3, 4, 20));
+		assertEquals(4, MyVect.rechercheBin(v3, 4, 26));
+	}
+
+	@Test
+	void testInsertToPos() {
+		int[] v1 = { 1, 3, 4, 5, 0, 0 };
+		int[] vr1 = { 0, 1, 3, 4, 5, 0 };
+		assertEquals(5, MyVect.insertToPos(v1, 4, 0, 0));
+		assertArrayEquals(vr1, v1);
+		int[] v2 = { 1, 3, 4, 5, 0, 0 };
+		int[] vr2 = { 1, 3, 4, 5, 10, 0 };
+		assertEquals(5, MyVect.insertToPos(v2, 4, 4, 10));
+		assertArrayEquals(vr2, v2);
+	}
+
+	@Test
+	void testDoublon1() {
+		int[] v3 = { 1, 2, 3, 4, 1 };
+		int[] v4 = { 1, 2, 3, 4, 4 };
+
+		assertTrue(MyVect.sansDoublon(v0));
+		assertTrue(MyVect.sansDoublon(v1));
+		assertTrue(MyVect.sansDoublon(v2));
+		assertFalse(MyVect.sansDoublon(v3));
+		assertFalse(MyVect.sansDoublon(v4));
+	}
+
+	@Test
+	void testDoublonv2() {
+		int[] v3 = { 1, 2, 3, 4, 1 };
+		int[] v4 = { 1, 2, 3, 4, 4 };
+
+		assertTrue(MyVect.sansDoublonV2(v0));
+		assertTrue(MyVect.sansDoublonV2(v1));
+		assertTrue(MyVect.sansDoublonV2(v2));
+		assertFalse(MyVect.sansDoublonV2(v3));
+		assertFalse(MyVect.sansDoublonV2(v4));
 	}
 }

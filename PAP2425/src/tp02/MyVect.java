@@ -1,7 +1,9 @@
 package tp02;
 
-public class MyVect {
+import java.util.stream.IntStream;
 
+public class MyVect {
+	// enregistrement pour un retour de minMaxElemV2
 	public record RMinMax(int min, int max) {
 	};
 
@@ -152,7 +154,7 @@ public class MyVect {
 	}
 
 	/**
-	* Retourne le min et la max du vecteur
+	* Retourne le min et la max du vecteur ds un vecteur de 2 éléments
 	* @param v
 	* @return  [min,max]
 	*/
@@ -168,7 +170,7 @@ public class MyVect {
 	}
 
 	/**
-	* Retourne le min et la max du vecteur
+	* Retourne le min et la max du vecteur dans un record
 	* @param v
 	* @return  Record[min,max]
 	*/
@@ -185,7 +187,7 @@ public class MyVect {
 	}
 
 	/**
-	 * Vérifie si le texte est un palindrome
+	 * Vérifie si le texte(vecteur de caractères) est un palindrome
 	 * @param v un vecteur de char
 	 * @return
 	 */
@@ -202,7 +204,7 @@ public class MyVect {
 	}
 
 	/**
-	 * Vérifie si le texte est un palindrome
+	 * Vérifie si le texte (String) est un palindrome
 	 * @param v un String
 	 * @return
 	 */
@@ -241,8 +243,15 @@ public class MyVect {
 		return trouve;
 	}
 
+	/**
+	 * recherche binaire (version sans variable booléenne)
+	 * Hyp.: le vecteur doit être trié par ordre croissant!
+	 * @param v vecteur trié
+	 * @param elem 
+	 * @return true si le vecteur contient l'élément
+	 */
 	public static boolean rechercheBin2(int[] v, int elem) {
-		if (v.length == 0)//élimine le cas d'un vecteur vide
+		if (v.length == 0)// élimine le cas d'un vecteur vide
 			return false;
 		int d = 0;
 		int f = v.length - 1;
@@ -259,25 +268,116 @@ public class MyVect {
 		return v[m] == elem;
 	}
 
+	
+
+	/**
+	 * Indique s'il existe des doublons (version basique non performante)
+	 * @param v
+	 * @return true si pas de doublon
+	 */
+	public static boolean sansDoublon(int[] v) {
+		boolean sd = true;
+		int i = 0;
+		int limite = v.length - 1;
+		while (sd && i < limite) {
+			int j = i + 1;
+			while (sd && j < v.length) {
+				sd = v[i] != v[j];
+				j++;
+			}
+			i++;
+		}
+		return sd;
+	}
+
+	/* *******************************************
+	 * La version 2 utilise 2 autres fonctions:
+	 * rechercheBin(v2, n, elem)
+	 * insertToPos(v2, n, pos, elem);
+	 * ******************************************/
+	/**
+	 * Indique s'il existe des doublons 
+	 * (Version fortement améliorée (500X!!!!) si pas de doublon
+	 * @param v
+	 * @return true si pas de doublon(s)
+	 */
+	public static boolean sansDoublonV2(int[] v) {
+		if (v.length<2)return true;
+		// on crée un nouveau vecteur de même taille
+		// qui recevra au fur et à mesure les éléments de V
+		// en les insérant de manière triées
+		int[] v2 = new int[v.length];
+		v2[0] = v[0]; // mets déjà le 1ère élément ds V2
+		int n = 1; // nombre d'éléments dans v2
+
+		boolean sd = true; // pas de doublons
+		int i = 1;// on commence sur le 2ème élément de v
+		int pos;// désignera la position de v[i] dans v2 (pos d'insertion ou de l'élément s'il
+				// existe déjà)
+		while (sd && i < v.length) {
+			int elem = v[i];// élément à recherche dans v2
+			pos = rechercheBin(v2, n, elem);// retourne la position d'insertion d'elem ds v2
+			// pas de doublon si pos est en fin de v2 (n)
+			// ou si v[pos] est différent de elem
+			sd = (pos == n) || v2[pos] != elem;
+			if (sd) {// si pas de doulon alors on insère elem dans v2 en position 'pos'
+				n = insertToPos(v2, n, pos, elem);
+				i++;
+			}
+		}
+		return sd;
+	}
+
+	/**
+	 * @param v vecteur trié de n éléments sans doublon 
+	 * @param n nbr d'éléments dans v (n<= taille de v)
+	 * @param elem élément qu'on recherche
+	 * @return position de l'élément s'il existe sinon sa position d'insertion (sera toujours < v.length)
+	 */
+	public static int rechercheBin(int[] v, int n, int elem) {
+		int d = 0;
+		int f = n - 1;
+		boolean trouve = false;
+		int m = 0;
+		while (!trouve && d <= f) {
+			m = (d + f) / 2;
+			trouve = v[m] == elem;
+			if (v[m] > elem)
+				f = m - 1;
+			else
+				d = m + 1;
+		}
+		// return amélioré (simplifié) par rapport à celui donné au cours
+		return trouve ? m : d;
+
+	}
+	
+	/**
+	 * Insère elem en position Pos en décalant les autres éléments
+	 * @param v vecteur trié de n éléments 
+	 * @param n nbr d'éléments dans v (n <= taille de v)
+	 * @param pos position où il faut insérer (intercaler) "elem"
+	 * @param elem élement à insérer
+	 * @return n+1
+	 */
+	public static int insertToPos(int[] v, int n, int pos, int elem) {
+		for (int i = n; i > pos; i--)
+			v[i] = v[i - 1];
+		v[pos] = elem;
+		return n + 1;
+	}
+	/* ************************************************************************
+	 * Fin sans doublon V2
+	 * ************************************************************************/
+
 	public static void main(String[] args) {
-		/*	char[] hex = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-			afficheVect(hex);
+		int[] v1 = IntStream.range(0, 100000).toArray();
+		// v1[5000]=78;
+		// afficheVect(v1);
 		
-			char[] v2 = {};
-			afficheVect(v2);
-		
-			int[] v3 = { 9, 7, 0, 3 };
-			afficheVect(v3);
-			System.out.println("Somme V: " + sommeV(v3));
-			*/
-		// int[] v1 = { 1, 2, 3, 3, 4 };
-		// System.out.println(avgElemV(v1));
-		// char[] vc = { 'A', 'B', 'B', 'A', 'I' };
-		// System.out.println(estPalindrome(vc));
-		// RMinMax r = new RMinMax(5, 76);
-		// System.out.println("Le minimum est: " + r.min() + " Le maximum est: " +
-		// r.max());
-		System.out.println(estPalindrome("RADAR"));
-		
+		Long t1 = System.currentTimeMillis();
+		boolean res = sansDoublonV2(v1);
+		Long t2 = System.currentTimeMillis();
+		System.out.println("Res:" + res + " Temps: " + (t2 - t1));
 	}
 }
