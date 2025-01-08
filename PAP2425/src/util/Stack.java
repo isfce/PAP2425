@@ -3,9 +3,9 @@ package util;
 /**
  * Stack d'entiers (type primitif)
  */
-public class StackInt {
+public class Stack<T> implements IStack<T> {
 	private static final int increment = 20;
-	private int[] v;
+	private T[] v;
 	private int sommet;// 1ère position de libre
 	private int tmax;// taille max du vecteur = v.length
 
@@ -13,16 +13,17 @@ public class StackInt {
 	 * Crée un stack d'une capacité initiale de tmax
 	 * @param tmax
 	 */
-	public StackInt(int tmax) {
+	@SuppressWarnings("unchecked")
+	public Stack(int tmax) {
 		this.tmax = tmax;
-		this.v = new int[tmax];
+		this.v = (T[]) new Object[tmax];
 		this.sommet = 0;
 	}
 
 	/**
 	 * Crée un stack avec une capacité initiale de 20 éléments
 	 */
-	public StackInt() {
+	public Stack() {
 		this(increment);
 	}
 
@@ -30,7 +31,8 @@ public class StackInt {
 	 * empile un élément au sommet du stack	
 	 * @param elem
 	 */
-	public void push(int elem) {
+	@Override
+	public void push(T elem) {
 		if (sommet == tmax)
 			augmenteTailleVecteur();
 		v[sommet] = elem;
@@ -42,10 +44,11 @@ public class StackInt {
 	 */
 	private void augmenteTailleVecteur() {
 		int newTaille = tmax + increment;
-		int[] x = new int[newTaille];
+		@SuppressWarnings("unchecked")
+		T[] x = (T[]) new Object[newTaille];
 		System.arraycopy(v, 0, x, 0, tmax);
 		v = x;
-		//System.out.println("Augmente taille de v de "+ tmax+ " à "+newTaille);
+		// System.out.println("Augmente taille de v de "+ tmax+ " à "+newTaille);
 		tmax = newTaille;
 	}
 
@@ -55,11 +58,14 @@ public class StackInt {
 	 * @exception si le stack est vide
 	 * 
 	 */
-	public int pop() {
+	@Override
+	public T pop() {
 		if (empty())
 			throw new ArrayIndexOutOfBoundsException("Le stack est vide");
 		sommet--;
-		return v[sommet];
+		T elem = v[sommet];
+		v[sommet] = null;//perte de la référence sur l'objet
+		return elem;
 	}
 
 	/**
@@ -67,7 +73,8 @@ public class StackInt {
 	 * @return élément au sommet
 	 * @exception si le stack est vide
 	 */
-	public int top() {
+	@Override
+	public T top() {
 		if (empty())
 			throw new ArrayIndexOutOfBoundsException();
 		return v[sommet - 1];
@@ -77,8 +84,9 @@ public class StackInt {
 	 * Indique si le stack est vide
 	 * @return true si vide
 	 */
+	@Override
 	public boolean empty() {
 		return sommet == 0;
 	}
-	
+
 }
