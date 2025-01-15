@@ -3,7 +3,7 @@ package util;
 /**
  * Stack d'entiers (type primitif)
  */
-public class Stack<T> implements IStack<T> {
+public class StackArray<T> implements IStack<T> {
 	private static final int increment = 20;
 	private T[] v;
 	private int sommet;// 1ère position de libre
@@ -14,7 +14,7 @@ public class Stack<T> implements IStack<T> {
 	 * @param tmax
 	 */
 	@SuppressWarnings("unchecked")
-	public Stack(int tmax) {
+	public StackArray(int tmax) {
 		this.tmax = tmax;
 		this.v = (T[]) new Object[tmax];
 		this.sommet = 0;
@@ -23,7 +23,7 @@ public class Stack<T> implements IStack<T> {
 	/**
 	 * Crée un stack avec une capacité initiale de 20 éléments
 	 */
-	public Stack() {
+	public StackArray() {
 		this(increment);
 	}
 
@@ -64,7 +64,7 @@ public class Stack<T> implements IStack<T> {
 			throw new ArrayIndexOutOfBoundsException("Le stack est vide");
 		sommet--;
 		T elem = v[sommet];
-		v[sommet] = null;//perte de la référence sur l'objet
+		v[sommet] = null;//pour ne pas maintenir une référence sur l'objet (garbage collector)
 		return elem;
 	}
 
