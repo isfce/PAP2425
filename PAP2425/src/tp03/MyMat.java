@@ -111,11 +111,94 @@ public class MyMat {
 		return mat;
 	}
 
-	public static void main(String[] args) {
-		int[][] m1 = { { 2, -47, 6 }, { 1, 2, 25 } };
-		afficheMat(m1);
-		afficheMat2(m1);
+	/**
+	 * Recherche la valeur minimum dans une matrice
+	 * @param m
+	 * @return mini
+	 */
+	public static int rechercheMin(int[][] m) {
+		int mini = m[0][0];
+		for (int[] v : m)// pour chaque vecteur de m
+			for (int elem : v)// pour chaque entier ds v
+				mini = Math.min(mini, elem);
+		return mini;
+	}
 
+	/**
+	 * Indique si la valeur existe dans la matrice
+	 * @param m
+	 * @param valeur
+	 * @return 
+	 */
+	public static boolean existeInMat(int[][] m, int valeur) {
+		boolean trouve = false;
+		int i = 0;
+		while (!trouve && i < m.length) {
+			int j = 0;
+			while (!trouve && j < m[i].length) {
+				trouve = m[i][j] == valeur;
+				j++;
+			}
+			i++;
+		}
+		return trouve;
+	}
+
+	/**
+	 * Vérifie si une matrice est symétrique	
+	 * @param m
+	 * @return
+	 */
+	public static boolean estSymetrique(int[][] m) {
+		boolean sym = true;
+		int i = 1;
+		while (sym && i < m.length) {
+			int j = 0;
+			while (sym && j < i) {
+				sym = (m[i][j] == m[j][i]);
+				j++;
+			}
+			i++;
+		}
+		return sym;
+	}
+
+	/**
+	 * Calcul du produit de 2 matrices (n,k)*(k,m) 
+	 * @param m1
+	 * @param m2
+	 * @return m3 (n,m)
+	 */
+	public static int[][] produitMat(int[][] m1, int[][] m2) {
+		assert m1[0].length == m2.length : "nb colonnes de m1 = nb lignes de m2";
+		// Mémorise les tailles par clarté
+		int n = m1.length;
+		int m = m2[0].length;
+		int k = m2.length;
+		// Création de m3
+		int[][] m3 = new int[n][m];
+		// Pour chaque case de m3
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				// calcule sa valeur
+				for (int l = 0; l < k; l++)
+					m3[i][j] = m3[i][j] + m1[i][l] * m2[l][j];
+		return m3;
+	}
+
+	public static void main(String[] args) {
+		int[][] m1 = { { 2, -47 }, { 1, 2 } };
+		int[][] m3 = { { 1, 7, 2 }, { 7, 2, 8 }, { 2, 8, 3 } };
+		afficheMat2(m1);
+		System.out.println("M1 est Symétrique?: " + estSymetrique(m1));
+		System.out.println("M3 est Symétrique?: " + estSymetrique(m3));
+		//int[][] m4 = creeMatrice(11, 11);
+		//afficheMat2(m4);
+		System.out.println("Produit de m5 et m6");
+		int[][] m5 = { { 1, 2, 5 }, { 3, 4, 6 } };
+		//int[][] m6 = { { 7 }, { 2 }, { 3 } };
+		int[][] m6 = { { 7,2 }, { 2,4 }, { 3,-3 } };
+		afficheMat2(produitMat(m5, m6));
 	}
 
 }
