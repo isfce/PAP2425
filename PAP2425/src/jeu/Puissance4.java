@@ -3,8 +3,6 @@ package jeu;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import tp03.MyMat;
-
 /**
  * Jeu de puissance 4 version 0.01
  */
@@ -58,14 +56,87 @@ public class Puissance4 {
 		fin = false;
 		gagne = false;
 		nbPions = 0;
-
 	}
 
-	// actuellement public, utilise ma méthode pour afficher la matrice
-	public void afficheJeu() {
+	// affiche le jeu
+	private void afficheJeu() {
+		int[][] mat = jeu;
 		System.out.println("-----------------------------------------------------");
-		MyMat.afficheMat2(jeu);
+		// Définir les caractères pour les bordures
+		char bordureHorizontale = '\u2550';
+		char bordureVerticale = '\u2551';
+		char croixHorizVert = '\u256C';
+		// nbr de colonnes
+		int m = mat[0].length;
+		// nombre de caractères max pour une donnée de mat
+		int nb = nbMaxChar(mat) + 1;
+		// max car pour afficher l'indice de ligne
+		int maxCarLigne = Integer.toString(mat.length).length();
+		// max car pour la 1ère colonne de la matrice
+		int maxCarColonne1 = nbMaxCharCol1(mat) + 1;
+
+		// début coin sup gauche
+		System.out.printf("%" + maxCarLigne + "s" + bordureVerticale, " ");
+		// indice de colonne avec un écart minimum pour la 1ère colonne
+		for (int j = 1; j < m - 1; j++) {
+			int nbr = j == 0 ? maxCarColonne1 : nb;
+			System.out.printf("%" + nbr + "d", j);
+		}
+		System.out.println();
+		// Affichage d'une ligne horizontale de séparation
+		int cpt = maxCarLigne;
+		for (int j = 0; j < cpt; j++)
+			System.out.print(bordureHorizontale);
+		// La croix
+		System.out.print(croixHorizVert);
+		// La suite de la ligne horizontale
+		cpt = (m - 1) * nb;
+		for (int j = 1; j < cpt; j++)
+			System.out.print(bordureHorizontale);
+
+		System.out.println();
+		// la matrice avec les entêtes de ligne
+		for (int i = 1; i < mat.length - 1; i++) {
+			// entête de ligne et séparation
+			System.out.printf("%" + maxCarLigne + "d" + bordureVerticale, i);
+			for (int j = 1; j < m - 1; j++) {
+				// les données en ligne avec le minimum d'espace pour la 1ère colonne
+				int nbr = j == 0 ? maxCarColonne1 : nb;
+				if (mat[i][j] != 0)
+					System.out.printf("%" + nbr + "d", mat[i][j]);
+				else
+					System.out.printf("%" + nbr + "s", ' ');
+			}
+			System.out.println();
+		}
 		System.out.println("-----------------------------------------------------");
+	}
+
+	/**
+	 * Pour l'affichage du jeu
+	 * Retourne le nombre maximum de caractères des nombres de la matrice
+	 * @param mat
+	 * @return
+	 */
+	private static int nbMaxChar(int[][] mat) {
+		int maxi = 1;
+		for (int[] v : mat)
+			for (int elem : v)
+				maxi = Math.max(maxi, Integer.toString(elem).length());
+		return maxi;
+	}
+
+	/**
+	 * Pour l'affichage du jeu
+	 * nbr maimum de caractères pour la 1ère colonne de la matrice
+	 * @param mat
+	 * @return
+	 */
+	private static int nbMaxCharCol1(int[][] mat) {
+		int maxi = 1;
+		for (int i = 0; i < mat.length; i++)
+			maxi = Math.max(maxi, Integer.toString(mat[i][0]).length());
+		return maxi;
 	}
 
 	/**
@@ -127,7 +198,7 @@ public class Puissance4 {
 			if (!fin)// changement joueur
 				tour = !tour;
 		}
-
+		afficheJeu();
 		if (gagne)
 			System.out.println("Bravo " + nomJoueur() + " vous avez gagné!!");
 		else
@@ -187,6 +258,7 @@ public class Puissance4 {
 	public static void main(String[] args) {
 		Puissance4 partie = new Puissance4("Waf", "Vo");
 		partie.start();
+		// partie.afficheListeDesCoups();
 
 		// partie.start();
 
